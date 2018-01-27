@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 
 @python_2_unicode_compatible
 class Email(models.Model):
-    # email should be used for contaact points
+    # email should be used for contact points
     email = models.CharField(_('Email'), max_length=60,
                              blank=True)
 
@@ -43,6 +43,7 @@ class Coordinates(models.Model):
 
     def long_float(self):
         return float(self.longitude)
+    # do computations here
 
 
 @python_2_unicode_compatible
@@ -55,6 +56,8 @@ class Address(models.Model):
                              max_length=255, blank=True)
     state = models.CharField(_('state'), max_length=100, blank=True)
     postcode = models.CharField(_('postcode'), max_length=100, blank=True)
+    coordinates = models.ForeignKey(Coordinates, on_delete=models.CASCADE,
+                                    related_name="coordinates")
 
     def __str__(self):
         return "<Address model for postcode: {}>".format(self.postcode)
@@ -77,11 +80,17 @@ class Address(models.Model):
 
 @python_2_unicode_compatible
 class ExtendedUser(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name="Person_details")
     work_address = models.ForeignKey(Address, on_delete=models.CASCADE,
-                                     blank=True)
+                                     blank=True, related_name="Work_address")
     home_address = models.ForeignKey(Address, on_delete=models.CASCADE,
-                                     blank=True)
+                                     blank=True, related_name="Home_Address")
+    work_email = models.ForeignKey(Email, on_delete=models.CASCADE, blank=True,
+                                   related_name="work_email")
+    personal_email = models.ForeignKey(Email, on_delete=models.CASCADE,
+                                       blank=True,
+                                       related_name="personal_email")
     phone_number = models.CharField(_('phone number'), max_length=18,
                                     blank=True)
     created = models.DateField(_('when the user was created'),
@@ -93,7 +102,7 @@ class ExtendedUser(models.Model):
         return "{} model".format(self.user.name)
 
     class Meta:
-        order_by = ['last_contacted']
+        ordering = ['last_modified']
 
     def get_user(self):
         return self.user
@@ -112,3 +121,39 @@ class ExtendedUser(models.Model):
 
     def get_last_modified(self):
         return self.last_modified
+
+
+@python_2_unicode_compatible
+class EmailMessage(models.Model):
+    from_whom = models.ForeignKey(Email, on_delete=models.CASCADE,
+                                  blank=False, related_name="from_whom")
+    to_whom = models.ForeignKey(Email, on_delete=models.CASCADE,
+                                blank=False, related_name="to_whom")
+    subject = models.CharField(_('subject of the email'),
+                               max_length=255, blank=True)
+    body = models.CharField(_('body of the email'), max_length=10000,
+                            blank=True)
+    created = models.DateField(_('when it was created'),
+                               auto_now=False,
+                               auto_now_add=True)
+
+    class Meta:
+        ordering = ['created']
+
+    def __str__(self):
+        return '<Email to {}>'.format(self.to_whom)
+
+    def get_to(self):
+        return self.to_whom
+
+    def get_from(self):
+        return self.from_whom
+
+    def get_subject(self):
+        return self.subject
+
+    def get_body(self):
+        return self.body
+
+    def get_created_at(self):
+        return self.created
