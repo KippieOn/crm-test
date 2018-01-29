@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Layout } from 'antd'
-import SideBar from './Sidebar'
+import SideBar from './SideBar'
 import DataTable from './TempData'
 
 const { Sider, Content } = Layout;
