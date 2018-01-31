@@ -32,10 +32,8 @@ class LoginForm extends Component {
     const { className, ...props } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className={classnames('Login', className)} {...props}>
-        <Row className="center-vertically">
-        <Col span={8}>
-          <Content>
+      <Layout style={{ height: '100vh',display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <Form onSubmit={this.handleSubmit} className="login-form">
           <FormItem>
             {getFieldDecorator('email', {
@@ -71,9 +69,7 @@ class LoginForm extends Component {
           </FormItem>
         </Form>
         </Content>
-      </Col>
-      </Row>
-      </div>
+      </Layout>
     );
   }
 

@@ -23,8 +23,8 @@ class ForgotPassword extends Component {
     const { className, ...props } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className={classnames('resetpassword', className)} {...props}>
-        <Content>
+      <Layout style={{ height: '100vh',display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Content style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <Form onSubmit={this.handleSubmit} className="reset-password-form">
         <FormItem>
           {getFieldDecorator('email', {
@@ -45,7 +45,7 @@ class ForgotPassword extends Component {
         </FormItem>
       </Form>
       </Content>
-      </div>
+    </Layout>
     );
   }
 }
