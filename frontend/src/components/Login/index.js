@@ -26,7 +26,7 @@ class LoginForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log(e);
     this.props.form.validateFields((err, values) => {
       if (!err) {
         login(this.state.user, this.state.password)
