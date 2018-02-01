@@ -11,18 +11,24 @@ const { Content } = Layout;
 const FormItem = Form.Item;
 
 class LoginForm extends Component {
+  constructor () {
+    super()
+    this.state = {
+        user: '',
+        password: '',
+      }
 
-  state = {
-    user: '',
-    password: '',
+    this.updateEmail = this.updateEmail.bind(this)
+    this.updatePassword = this.updatePassword.bind(this)
   }
+
+
 
   handleSubmit = (e) => {
     e.preventDefault();
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         login(this.state.user, this.state.password)
       }
     });
@@ -73,12 +79,12 @@ class LoginForm extends Component {
     );
   }
 
-  updateEmail = function(evt) {
+  updateEmail (evt) {
     this.setState({
       email: evt.target.value
     });
   }
-  updatePassword = function(evt) {
+  updatePassword (evt) {
     this.setState({
       password: evt.target.value
     });
