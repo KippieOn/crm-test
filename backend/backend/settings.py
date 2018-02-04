@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     #local
     'api',
     'crm',
+    'user',
     # 3rd party
     'rest_framework',
     'rest_framework.authtoken',
@@ -84,7 +86,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'api',
+        'NAME': 'crm',
         'USER': 'IAMIN',
         'PASSWORD': '',
         'HOST': '',
@@ -111,6 +113,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'sessions'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -131,3 +135,55 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 CORS_ORIGIN_WHITELIST = ('http://localhost:3001')
+
+
+"""
+Logging
+"""
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'debug': {
+            'format': '%(asctime)s %(name)s %(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'debug'
+        },
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
+    },
+    'root': {
+        'level': 'ERROR',
+        'handlers': ['console', 'sentry'],
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
+        'oscar': {
+            'handlers': ['console'],
+            'propagate': False,
+            'level': 'INFO',
+        },
+        'oscar_apps': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'sorl.thumbnail': {
+            'handlers': ['console'],
+            'level': 'CRITICAL',
+        },
+    },
+}

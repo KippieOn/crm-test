@@ -19,8 +19,10 @@ from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
 
+
+app_name = 'api'
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
-    url(r'^', include('api.urls', namespace="api", app_name="api"))
+    url(r'^', include('api.urls'))
 ]
