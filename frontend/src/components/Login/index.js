@@ -5,6 +5,7 @@ import { Row, Col } from 'antd'
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { login } from '../../util/Auth';
+import AuthAction from '../../actions/auth';
 import './style.css';
 
 const { Content } = Layout;
@@ -29,7 +30,7 @@ class LoginForm extends Component {
     console.log(e);
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        login(this.state.user, this.state.password)
+        AuthAction.login(this.state.user, this.state.password)
       }
     });
   }
