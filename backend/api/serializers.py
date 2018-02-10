@@ -7,7 +7,7 @@ class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = List
         fields = (
-            'id',
+            'pk',
             'name',
             'person',
             'updated_at',
@@ -19,7 +19,7 @@ class EmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Email
         fields = (
-            'id',
+            'pk',
             'email'
         )
 
@@ -28,7 +28,7 @@ class CoordinatesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coordinates
         fields = (
-            'id',
+            'pk',
             'latitude',
             'longitude'
         )
@@ -38,7 +38,7 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = (
-            'id',
+            'pk',
             'line1',
             'line2',
             'line3',
@@ -53,7 +53,7 @@ class EmailMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmailMessage
         fields = (
-            'id',
+            'pk',
             'to_whom',
             'from_whom',
             'subject',
@@ -67,7 +67,7 @@ class ExtendedUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExtendedUser
         fields = (
-            'id',
+            'pk',
             'user',
             'work_address',
             'home_address',
@@ -75,5 +75,8 @@ class ExtendedUserSerializer(serializers.ModelSerializer):
             'personal_email',
             'phone_number',
             'created',
-            'last_modified'
+            'last_modified',
         )
+
+
+# serializers convert to JSON but also validate for data passed

@@ -214,6 +214,10 @@ class List(models.Model):
                                null=True,
                                related_name="person")
     name = models.CharField(_("List name/purpose"), max_length=120)
+    description = models.CharField(_("Purpose of the list"),
+                                   max_length=500,
+                                   null=True,
+                                   blank=True)
     updated_at = models.DateField(auto_now=True, auto_now_add=False)
     created_at = models.DateField(auto_now=False, auto_now_add=True)
 
