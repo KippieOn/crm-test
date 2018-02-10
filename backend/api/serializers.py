@@ -13,6 +13,12 @@ class ListSerializer(serializers.ModelSerializer):
             'updated_at',
             'created_at',
         )
+        read_only_fields = ('pk', 'created_at')
+        search_fields = (
+            'person__user',
+            'person__personal_email',
+            'person__work_email'
+        )
 
 
 class EmailSerializer(serializers.ModelSerializer):
@@ -22,6 +28,15 @@ class EmailSerializer(serializers.ModelSerializer):
             'pk',
             'email'
         )
+        read_only_fields = ('pk',)
+
+    def validate_email(self, value):
+        qs = Email.objects.filter(email__iexact=value)
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise serializers.ValidationError('Title must be unique')
+        return value
 
 
 class CoordinatesSerializer(serializers.ModelSerializer):
@@ -32,6 +47,7 @@ class CoordinatesSerializer(serializers.ModelSerializer):
             'latitude',
             'longitude'
         )
+        read_only_fields = ('pk',)
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -46,7 +62,7 @@ class AddressSerializer(serializers.ModelSerializer):
             'postcode',
             'coordinates'
         )
-
+        read_only_fields = ('pk',)
 
 
 class EmailMessageSerializer(serializers.ModelSerializer):
@@ -60,6 +76,7 @@ class EmailMessageSerializer(serializers.ModelSerializer):
             'body',
             'created',
         )
+        read_only_fields = ('pk', 'created', )
 
 
 class ExtendedUserSerializer(serializers.ModelSerializer):
@@ -77,6 +94,7 @@ class ExtendedUserSerializer(serializers.ModelSerializer):
             'created',
             'last_modified',
         )
+        read_only_fields = ('pk', 'created', )
 
 
 # serializers convert to JSON but also validate for data passed

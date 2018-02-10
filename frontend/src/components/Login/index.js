@@ -42,11 +42,9 @@ class LoginForm extends Component {
           <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <Form onSubmit={this.handleSubmit} className="login-form">
           <FormItem>
-            {getFieldDecorator('email', {
+            {getFieldDecorator('user', {
               rules: [{
-                type: 'email', message: 'The email is not valid!',
-              }, {
-                required: true, message: 'Please enter your Email!',
+                required: true, message: 'Please enter your username!',
               }],
             })(
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} value={this.state.email} onChange={this.updateEmail} placeholder="Email" />

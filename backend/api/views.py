@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
-from rest_framework import viewsets, generics
+from rest_framework import generics, mixins
 from rest_framework.authentication import (SessionAuthentication,
                                            BasicAuthentication)
 
@@ -20,14 +20,7 @@ from api.serializers import (ListSerializer, ExtendedUserSerializer,
                              AddressSerializer, EmailMessageSerializer)
 
 
-class ListViewSet(generics.RetrieveUpdateDestroyAPIView):
-    lookup_field = 'name'
-    serializer_class = ListSerializer
-
-    def get_queryset(self):
-        return List.objects.all()
-
-
+# Basic token authentication
 @api_view(['GET'])
 @authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated))
@@ -41,42 +34,180 @@ def login_view(request, format_none):
     return Response(content)
 
 
-@api_view(['POST'])
-@authentication_classes((SessionAuthentication, BasicAuthentication))
-@permission_classes((IsAuthenticated))
-def create_list(request, name):
-    new_list = List.objects.create(
-        name=name,
-    )
-    new_list.save()
-    return new_list
+class ListViewSet(mixins.CreateModelMixin, generics.ListAPIView):
+    lookup_field = 'pk'
+    serializer_class = ListSerializer
+
+    def get_queryset(self):
+        qs = List.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(
+                    Q(name__icontains=query) |
+                    Q(ExtendedUser__personal_email__icontains=query) |
+                    Q(ExtendedUser__work_email__icontains=query)
+                    ).distinct()
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-@api_view(['GET'])
-@authentication_classes((SessionAuthentication, BasicAuthentication))
-@permission_classes((IsAuthenticated))
-def retrieve_list(request, name):
-    list_object = List.objects.get_object_or_404(List, name=name)
-    return list_object
+class ListRUDView(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'pk'
+    serializer_class = ListSerializer
+
+    def get_queryset(self):
+        qs = List.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(
+                Q(name__icontains=query)
+                ).distinct()
+        return qs
 
 
-@api_view(['PATCH'])
-@authentication_classes((SessionAuthentication, BasicAuthentication))
-@permission_classes((IsAuthenticated))
-def retrieve_lists(request):
-    lists = List.objects.all()
-    return lists
+class EmailViewSet(mixins.CreateModelMixin, generics.ListAPIView):
+    lookup_field = 'pk'
+    serializer_class = EmailSerializer
+
+    def get_queryset(self):
+        qs = Email.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(email__icontains=query).distinct()
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-@api_view(['DELETE'])
-@authentication_classes((SessionAuthentication, BasicAuthentication))
-@permission_classes((IsAuthenticated))
-def update_list(request, what_to_update):
-    pass
+class EmailRUDView(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'pk'
+    serializer_class = EmailSerializer
+
+    def get_queryset(self):
+        qs = Email.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(email__icontains=query).distinct()
+        return qs
 
 
-@api_view(['POST'])
-@authentication_classes((SessionAuthentication, BasicAuthentication))
-@permission_classes((IsAuthenticated))
-def delete_list(request, name):
-    List.objects.get(name=name).delete()
+class CoordinatesViewSet(mixins.CreateModelMixin, generics.ListAPIView):
+    lookup_field = 'pk'
+    serializer_class = CoordinatesSerializer
+
+    def get_queryset(self):
+        qs = Coordinates.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(
+                    Q(latitude__icontains=query) |
+                    Q(longitude__icontains=query)
+                    )
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class CoordinatesRUDView(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'pk'
+    serializer_class = CoordinatesSerializer
+
+    def get_queryset(self):
+        qs = Coordinates.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(
+                Q(line1__icontains=query) |
+                Q(line3__icontain=query) |
+                Q(postcode_icontains=query)
+                )
+        return qs
+
+
+class AddressViewSet(mixins.CreateModelMixin, generics.ListAPIView):
+    lookup_field = 'pk'
+    serializer_class = AddressSerializer
+
+    def get_queryset(self):
+        qs = Address.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(
+                    Q(line1__icontains=query) |
+                    Q(line3__icontain=query) |
+                    Q(postcode_icontains=query)
+                    )
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class AddressRUDView(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'pk'
+    serializer_class = AddressSerializer
+
+    def get_queryset(self):
+        qs = Address.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(
+                Q(name__icontains=query)
+                ).distinct()
+        return qs
+
+
+class ExtendedUserViewSet(mixins.CreateModelMixin, generics.ListAPIView):
+    lookup_field = 'pk'
+    serializer_class = ExtendedUserSerializer
+
+    def get_queryset(self):
+        qs = ExtendedUser.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(
+                    Q(personal_email__icontains=query) |
+                    Q(address__icontains=query) |
+                    Q(work_email__icontains=query) |
+                    Q(phone_number__icontains=query)
+                    ).distinct()
+        return qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class ExtendedUserRUDView(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'pk'
+    serializer_class = ExtendedUserSerializer
+
+    def get_queryset(self):
+        qs = ExtendedUser.objects.all()
+        query = self.request.GET.get("q")
+        if query is not None:
+            qs = qs.filter(
+                Q(personal_email__icontains=query) |
+                Q(address__icontains=query) |
+                Q(work_email__icontains=query) |
+                Q(phone_number__icontains=query)
+                ).distinct()
+        return qs

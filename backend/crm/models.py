@@ -64,7 +64,7 @@ class Address(models.Model):
                              max_length=255,
                              blank=True,
                              null=True)
-    line3 = models.CharField(_('third line of the address'),
+    line3 = models.CharField(_('city'),
                              max_length=255,
                              blank=True,
                              null=True)
