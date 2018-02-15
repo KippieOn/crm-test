@@ -1,4 +1,5 @@
 export const SET_TOKEN = "SET_TOKEN";
-export const DO_LOGIN = "DO_LOGIN";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILED = "LOGIN_FAILED";
+export const SET_LOGIN_PENDING = 'SET_LOGIN_PENDING';
+export const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS';
+export const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR';
+export const SET_USER_LOGIN_DATA = 'SET_USER_LOGIN_DATA';

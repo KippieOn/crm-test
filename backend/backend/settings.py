@@ -26,7 +26,7 @@ SECRET_KEY = 'h7d!3q2coq7e)tumau9&l2958!ql81$r&lh*1v=tvf_#q-3)v^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -84,14 +84,18 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'crm',
-        'USER': 'IAMIN',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-    }
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'crm',
+#        'USER': 'IAMIN',
+#        'PASSWORD': '',
+#        'HOST': '',
+#        'PORT': '',
+#    }
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': 'mydatabase',
+     }
 }
 
 

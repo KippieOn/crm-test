@@ -4,20 +4,20 @@ import { Form, Icon, Input, Button, Checkbox, Layout } from 'antd';
 import { Row, Col } from 'antd'
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { login } from '../../util/Auth';
 import AuthAction from '../../actions/auth';
+import { connect } from 'react-redux';
+import { callLoginApi } from '../../service/auth';
 import './style.css';
 
 const { Content } = Layout;
 const FormItem = Form.Item;
 
 class LoginForm extends Component {
-  constructor () {
-    super()
-    this.state = {
-        user: '',
-        password: '',
-      }
+
+  constructor (props) {
+    super(props)
+    this.state = {};
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.updateEmail = this.updateEmail.bind(this)
     this.updatePassword = this.updatePassword.bind(this)
@@ -27,10 +27,27 @@ class LoginForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    console.log(this.props.form);
+    const form = this.props.form;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        AuthAction.login(this.state.user, this.state.password)
+        let { email, password } = this.state;
+        const { dispatch } = this.props;
+        dispatch(AuthAction.setLoginPending(true));
+        dispatch(AuthAction.setLoginSuccess(false));
+        dispatch(AuthAction.setLoginError(null));
+
+        form.resetFields();
+        callLoginApi(email, password, result => {
+          console.log("API result", result);
+          dispatch(AuthAction.setLoginPending(false));
+          if (!result.error) {
+            dispatch(AuthAction.setLoginSuccess(true));
+            dispatch(AuthAction.setLoginData(result));
+          } else {
+            dispatch(AuthAction.setLoginError(result));
+          }
+        });
       }
     });
   }
@@ -38,6 +55,8 @@ class LoginForm extends Component {
   render() {
     const { className, ...props } = this.props;
     const { getFieldDecorator } = this.props.form;
+    console.log(this.props);
+    let {isLoginPending, isLoginSuccess, loginError} = this.props;
     return (
       <Layout style={{ height: '100vh',display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -73,6 +92,9 @@ class LoginForm extends Component {
             </Button>
           </FormItem>
         </Form>
+        { isLoginPending && <div>Please wait...</div> }
+        { isLoginSuccess && <div>Success.</div> }
+        { loginError && <div>{loginError.message}</div> }
         </Content>
       </Layout>
     );
@@ -88,8 +110,15 @@ class LoginForm extends Component {
       password: evt.target.value
     });
   }
-
-
 }
 
-export default Form.create()(LoginForm);
+const mapStateToProps = (state) => {
+  return {
+    isLoginPending: state.auth.isLoginPending,
+    isLoginSuccess: state.auth.isLoginSuccess,
+    loginError: state.auth.loginError
+  };
+}
+
+
+export default connect(mapStateToProps)(Form.create()(LoginForm));

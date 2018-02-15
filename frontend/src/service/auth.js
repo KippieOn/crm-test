@@ -1,37 +1,37 @@
-import AuthAction from '../actions/auth';
+import axios from 'axios';
+import {API_ROOT} from '../constants';
 
-const login(username, password) => {
-  const authUser = username.trim().toLowerCase();
-  let returnData = {}
-  if(authUser = "rahul@kippie.co"){
-    returnData =  {
-      user: 'rahul',
-      auth_token: 'rahul',
-    };
-  } else if (authUser = "issac@kippie.co") {
-    returnData =  {
-      user: 'issac',
-      auth_token: 'issac',
-    };
-  } else {
-    returnData = {
-      error: 'Invalid Username or Password';
-    };
-  }
+function callLoginApi(email, password, callback) {
+  axios.post(`${API_ROOT}/api/auth`, {
+    username: email,
+    password: password,
+  })
+  .then(function (response) {
+    let result = {};
+    let status = response.status;
+    if (status == 200){
+      result = {
+        token: response.data.token,
+        email,
+      };
+    } else {
+      result = {
+        error : response.data.non_field_errors[0]
+      }
+    }
 
-  if (returnData.user){
-    dispatch(AuthAction.loginSuccess(returnData));
-  } else {
-    dispatch(AuthAction.loginFailed(returnData));
-  }
-
+    return callback(result);
+  })
+  .catch(function (error) {
+    return callback({error});
+  });
 }
 
 const logout = () => {
-  
+
 }
 
 export {
-  login,
+  callLoginApi,
   logout,
 }

@@ -1,22 +1,31 @@
-import * as actionType from './types';
+import * as actionType from "./types";
 
-export const login = (data) => {
-  return {
-    type: actionType.DO_LOGIN,
-    data,
-  }
-}
+const authActions = {
+  setLoginPending: isLoginPending => {
+    return {
+      type: actionType.SET_LOGIN_PENDING,
+      isLoginPending
+    };
+  },
+  setLoginSuccess: isLoginSuccess => {
+    return {
+      type: actionType.SET_LOGIN_SUCCESS,
+      isLoginSuccess
+    };
+  },
+  setLoginError: loginError => {
+    return {
+      type: actionType.SET_LOGIN_ERROR,
+      loginError
+    };
+  },
+  setLoginData: ({token, email}) => {
+    return {
+      type: actionType.SET_USER_LOGIN_DATA,
+      token,
+      email
+    };
+  },
+};
 
-export const loginSuccess = (data) => {
-  return {
-    type: action.LOGIN_SUCCESS,
-    data,
-  }
-}
-
-export const loginFailed = (data) => {
-  return {
-    type: action.LOGIN_FAILED,
-    data,
-  }
-}
+export default authActions;

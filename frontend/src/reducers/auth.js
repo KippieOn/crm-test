@@ -1,21 +1,37 @@
 import * as actionType from '../actions/types';
 
-const initialState = {
-  isLoggedIn: false,
-  username: null,
-  auth_token: null
-}
+export default function reducer(state = {
+  isLoginSuccess: false,
+  isLoginPending: false,
+  loginError: null,
+  token: null,
+  email: null,
+}, action) {
+  switch (action.type) {
+    case actionType.SET_LOGIN_PENDING:
+      return Object.assign({}, state, {
+        isLoginPending: action.isLoginPending
+      });
 
-const auth = (state = initialState, action) => {
-  switch(action.type) {
-    case actionType.LOGIN_SUCCESS:
-      return {
-        isLoggedIn: true,
-        username: action.user,
-        auth_token: action.auth_token,
-      };
-    case actionType.LOGIN_FAILED:
-      return initialState;
+    case actionType.SET_LOGIN_SUCCESS:
+      return Object.assign({}, state, {
+        isLoginSuccess: action.isLoginSuccess,
+      });
+
+    case actionType.SET_USER_LOGIN_DATA:
+      console.log(action);
+      let newState =  Object.assign({}, state, {
+        token: action.token,
+        email: action.email,
+      });
+      console.log(newState);
+      return newState;
+
+    case actionType.SET_LOGIN_ERROR:
+      return Object.assign({}, state, {
+        loginError: action.loginError,
+      });
+
     default:
       return state;
   }

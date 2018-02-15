@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
-from rest_framework import include_docs_urls
+from rest_framework.documentation import include_docs_urls
 from api import views as crm_api
 
 urlpatterns = [
