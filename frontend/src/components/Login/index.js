@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import AuthAction from '../../actions/auth';
 import { connect } from 'react-redux';
-import { callLoginApi } from '../../service/auth';
+import  AuthService from '../../service/auth';
 import './style.css';
 
 const { Content } = Layout;
@@ -38,7 +38,7 @@ class LoginForm extends Component {
         dispatch(AuthAction.setLoginError(null));
 
         form.resetFields();
-        callLoginApi(email, password, result => {
+        AuthService.callLoginApi(email, password, result => {
           console.log("API result", result);
           dispatch(AuthAction.setLoginPending(false));
           if (!result.error) {
