@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox, Layout } from 'antd';
 import { Row, Col } from 'antd'
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom'
 import classnames from 'classnames';
 import AuthAction from '../../actions/auth';
 import { connect } from 'react-redux';
@@ -42,8 +43,8 @@ class LoginForm extends Component {
           console.log("API result", result);
           dispatch(AuthAction.setLoginPending(false));
           if (!result.error) {
-            dispatch(AuthAction.setLoginSuccess(true));
             dispatch(AuthAction.setLoginData(result));
+            dispatch(AuthAction.setLoginSuccess(true));
           } else {
             dispatch(AuthAction.setLoginError(result));
           }
@@ -57,6 +58,9 @@ class LoginForm extends Component {
     const { getFieldDecorator } = this.props.form;
     console.log(this.props);
     let {isLoginPending, isLoginSuccess, loginError} = this.props;
+    console.log("Is loggin success", isLoginSuccess);
+    const { from } = this.props.location.state || { from: { pathname: '/' }}
+
     return (
       <Layout style={{ height: '100vh',display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
