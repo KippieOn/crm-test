@@ -1,0 +1,13 @@
+.padding-data {
+  padding: 1%;
+}
+
+.bottom-switch {
+  position: fixed !important;
+  bottom: 50px;
+  left: 1%;
+}
+
+.minimum-height {
+  min-height: 900px;
+}

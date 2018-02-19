@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import * as actionType from '../actions/types';
+import auth from './auth';
 
 const tokenInitialState = null;
 const token = ( state = tokenInitialState, action ) => {
@@ -13,6 +14,7 @@ const token = ( state = tokenInitialState, action ) => {
 
 const appReducer = combineReducers({
   token,
+  auth,
 })
 
 const rootReducer = (state, action) => {

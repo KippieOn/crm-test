@@ -1,0 +1,13 @@
+.reset-password-form {
+  width: 300px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.reset-form-forgot {
+  float: right;
+}
+
+.reset-form-button {
+  width: 100%;
+}

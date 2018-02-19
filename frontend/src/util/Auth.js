@@ -10,6 +10,7 @@ export function InvalidCredentialsException(message) {
 }
 
 export function login(username, password) {
+  console.log(URL)
   return axios
     .post(URL + LOGIN, {
       username,
