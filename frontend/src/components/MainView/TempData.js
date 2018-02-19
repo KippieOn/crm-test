@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Icon, Switch, Radio, Form, Divider, Col, Row } from 'antd';
 import Chance from 'chance'
+import ExtendedInfo from '../ExtendedInfo'
+
 const FormItem = Form.Item;
 
 const columns = [{
@@ -67,7 +69,7 @@ for (let i = 1; i <= 10; i++) {
   });
 }
 
-const expandedRowRender = record => <p>{record.description}</p>;
+const expandedRowRender = record => <ExtendedInfo />;
 // this should be the name of the list
 const title = () => 'Here is title';
 const showHeader = true;

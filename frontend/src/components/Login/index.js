@@ -83,6 +83,9 @@ class LoginForm extends Component {
               <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" value={this.state.password} onChange={this.updatePassword} placeholder="Password" />
             )}
           </FormItem>
+          { isLoginPending && <div>Please wait...</div> }
+          { isLoginSuccess && <div>Success.</div> }
+          { loginError && <div>{loginError.message}</div> }
           <FormItem>
             {getFieldDecorator('remember', {
               valuePropName: 'checked',
@@ -96,9 +99,6 @@ class LoginForm extends Component {
             </Button>
           </FormItem>
         </Form>
-        { isLoginPending && <div>Please wait...</div> }
-        { isLoginSuccess && <div>Success.</div> }
-        { loginError && <div>{loginError.message}</div> }
         </Content>
       </Layout>
     );
