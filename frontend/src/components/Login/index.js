@@ -1,7 +1,7 @@
 // src/components/Login/index.js
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox, Layout } from 'antd';
-import { Row, Col } from 'antd'
+import { Row, Col, Spin } from 'antd'
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom'
 import classnames from 'classnames';
@@ -96,7 +96,8 @@ class LoginForm extends Component {
             )}
             <a className="login-form-forgot" href="/resetpassword">Forgot password</a>
             <Button type="primary" htmlType="submit" className="login-form-button">
-              Log in
+              { isLoginPending && <Spin size="medium" /> }
+              { !isLoginPending &&  "Log in" }
             </Button>
           </FormItem>
         </Form>
