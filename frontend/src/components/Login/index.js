@@ -96,7 +96,7 @@ class LoginForm extends Component {
             )}
             <a className="login-form-forgot" href="/resetpassword">Forgot password</a>
             <Button type="primary" htmlType="submit" className="login-form-button">
-              { isLoginPending && <Spin size="medium" /> }
+              { isLoginPending && <Spin size="small" /> }
               { !isLoginPending &&  "Log in" }
             </Button>
           </FormItem>
