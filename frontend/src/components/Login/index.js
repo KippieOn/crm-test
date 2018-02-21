@@ -61,6 +61,10 @@ class LoginForm extends Component {
     console.log("Is loggin success", isLoginSuccess);
     const { from } = this.props.location.state || { from: { pathname: '/' }}
 
+    if(isLoginSuccess) {
+      return <Redirect to="/" />
+    }
+
     return (
       <Layout style={{ height: '100vh',display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
