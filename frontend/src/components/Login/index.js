@@ -101,8 +101,6 @@ class LoginForm extends Component {
             </Button>
           </FormItem>
         </Form>
-        { isLoginPending && <div>Please wait...</div> }
-        { isLoginSuccess && <div>Success.</div> }
         { loginError && <div>{loginError.message}</div> }
         </Content>
       </Layout>
