@@ -34,11 +34,7 @@ const Routes = props => (
         <Route exact path="/login" component={Login} />
         <Route exact path="/resetpassword" component={ForgotPassword} />
         <Route exact path="/about" component={About} />
-        <Route path="/" component={EnsureLoggedIn} >
-          <Route exact path="home" component={ForgotPassword} />
-        </Route>
-
-        <Route path="*" component={NotFound} />
+        <Route path="/" component={EnsureLoggedIn} />
       </Switch>
     </Router>
   </Provider>
