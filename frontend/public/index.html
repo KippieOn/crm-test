@@ -28,4 +28,20 @@
     </noscript>
     <div id="root"></div>
   </body>
+  <script type="text/javascript">
+  var dict = {
+    'username': 'iamin',
+    'password': 'playithard'
+  }
+  $.ajax({ url : 'http://127.0.0.1:8000/api/auth',
+    type : "POST",
+    params: dict,
+    error : function(req, message) {
+        alert(message);
+    },
+    success : function(data) {
+        alert(data);
+    },
+    dataType :  "text"} );
+  </script>
 </html>

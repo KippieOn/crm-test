@@ -1,7 +1,7 @@
 // src/components/Login/index.js
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox, Layout } from 'antd';
-import { Row, Col } from 'antd'
+import { Row, Col, Spin } from 'antd'
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom'
 import classnames from 'classnames';
@@ -99,10 +99,19 @@ class LoginForm extends Component {
             )}
             <a className="login-form-forgot" href="/resetpassword">Forgot password</a>
             <Button type="primary" htmlType="submit" className="login-form-button">
-              Log in
+              { isLoginPending && <Spin size="small" /> }
+              { !isLoginPending &&  "Log in" }
             </Button>
           </FormItem>
         </Form>
+<<<<<<< HEAD
+||||||| merged common ancestors
+        { isLoginPending && <div>Please wait...</div> }
+        { isLoginSuccess && <div>Success.</div> }
+        { loginError && <div>{loginError.message}</div> }
+=======
+        { loginError && <div>{loginError.message}</div> }
+>>>>>>> 0003a0128eb11b0106e2ef30dd70be769dc7b909
         </Content>
       </Layout>
     );

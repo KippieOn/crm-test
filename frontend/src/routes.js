@@ -2,8 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import About from "./components/About";
-import NotFound from "./components/NotFound";
-import MainView from "./components/MainView";
 import EnsureLoggedIn from "./components/Login/EnsureLoggedIn";
 import Login from "./components/Login";
 import { Redirect } from 'react-router-dom'
