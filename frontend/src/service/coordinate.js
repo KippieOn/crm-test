@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_ROOT } from "../constants";
+import { URL as API_ROOT } from '../config/constants';
 
 const CoordinateService = {
   read: (id, auth_token, callback) => {

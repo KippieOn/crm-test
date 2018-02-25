@@ -104,14 +104,6 @@ class LoginForm extends Component {
             </Button>
           </FormItem>
         </Form>
-<<<<<<< HEAD
-||||||| merged common ancestors
-        { isLoginPending && <div>Please wait...</div> }
-        { isLoginSuccess && <div>Success.</div> }
-        { loginError && <div>{loginError.message}</div> }
-=======
-        { loginError && <div>{loginError.message}</div> }
->>>>>>> 0003a0128eb11b0106e2ef30dd70be769dc7b909
         </Content>
       </Layout>
     );
