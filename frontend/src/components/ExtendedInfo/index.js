@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   Form, Select, InputNumber, Switch, Radio,
-  Slider, Button, Upload, Icon, Rate,
+  Slider, Button, Upload, Icon, Rate, Col
 } from 'antd';
+import './style.css';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -179,9 +180,11 @@ class ExtendedInfo extends Component {
         </FormItem>
 
         <FormItem
-          wrapperCol={{ span: 12, offset: 0 }}
+          wrapperCol={{ span: 10, offset: 0 }}
         >
-          <Button type="primary" htmlType="submit">Submit</Button>
+          <Col span={24} style={{ textAlign: 'right' }}>
+            <Button type="primary" htmlType="submit" className='align-right'>Submit</Button>
+          </Col>
         </FormItem>
       </Form>
     );

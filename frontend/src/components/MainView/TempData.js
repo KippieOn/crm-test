@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Icon, Switch, Radio, Form, Divider, Col, Row } from 'antd';
+import { Table, Icon, Switch, Form, Divider, Col, Row, Button } from 'antd';
 import Chance from 'chance'
 import ExtendedInfo from '../ExtendedInfo'
 
@@ -73,10 +73,14 @@ const expandedRowRender = record => <ExtendedInfo />;
 // this should be the name of the list
 const title = () => 'Here is title';
 const showHeader = true;
-const footer = () => 'Here is footer';
+const footer = () => '';
 const scroll = { y: 240 };
 
 class TempData extends Component {
+  super(constructor){
+    this.createNew = this.createNew.bind(this)
+  }
+
   state = {
     bordered: false,
     loading: false,
@@ -89,6 +93,7 @@ class TempData extends Component {
     rowSelection: {},
     scroll: undefined,
   }
+
 
   handleToggle = (prop) => {
     return (enable) => {
@@ -124,6 +129,10 @@ class TempData extends Component {
     this.setState({ scroll: enable ? scroll : undefined });
   }
 
+  createNew = () => {
+
+  }
+
   render() {
     const state = this.state;
     return (
@@ -131,14 +140,8 @@ class TempData extends Component {
         <div className="components-table-demo-control-bar">
           <Row>
             <Form layout="inline" fixed="right">
-              <Col span={24} style={{ textAlign: 'right' }}>
-                <FormItem label="Size">
-                  <Radio.Group size="default" value={state.size} onChange={this.handleSizeChange}>
-                    <Radio.Button value="default">Default</Radio.Button>
-                    <Radio.Button value="middle">Middle</Radio.Button>
-                    <Radio.Button value="small">Small</Radio.Button>
-                  </Radio.Group>
-                </FormItem>
+              <Col span={23} style={{ textAlign: 'right' }}>
+                <Button type='primary' onClick={this.createNew}>Add New</Button>
               </Col>
             </Form>
           </Row>

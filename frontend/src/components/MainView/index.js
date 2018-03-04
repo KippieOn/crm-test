@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Icon, Switch } from 'antd'
+import { Layout, Menu, Icon, Switch, Button } from 'antd'
 import SideBar from './SideBar'
 import DataTable from './TempData'
 import './style.css'
 
 const { Header, Sider, Content, Footer } = Layout;
 const SubMenu = Menu.SubMenu;
-
+const MenuItems = ['']
 
 class MainView extends Component {
   state = {
@@ -25,7 +25,6 @@ class MainView extends Component {
       theme: value ? 'dark': 'light',
     })
   }
-
 
   render () {
     return (
@@ -65,6 +64,8 @@ class MainView extends Component {
                <span>File</span>
              </Menu.Item>
             </Menu>
+            <div className='ant-layout-sider-trigger'>Rand</div>
+            <a href=''><Icon type='plus' /></a>
             <Switch
                checked={this.state.theme === 'dark'}
                onChange={this.changeTheme}
@@ -72,6 +73,7 @@ class MainView extends Component {
                unCheckedChildren="Light"
                className="bottom-switch"
              />
+
         </Sider>
         <Layout>
          <Header style={{ background: '#fff', padding: 0 }} />
