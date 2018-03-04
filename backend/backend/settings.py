@@ -24,13 +24,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'h7d!3q2coq7e)tumau9&l2958!ql81$r&lh*1v=tvf_#q-3)v^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,9 +48,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -138,15 +137,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-CORS_ORIGIN_WHITELIST = ('http://localhost:3001')
+#CORS_ORIGIN_WHITELIST = ('http://localhost:3000', 'http://localhost:3001')
+CORS_ORIGIN_ALLOW_ALL = True
+CROS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     )
 }
 
