@@ -18,7 +18,7 @@ class Email(models.Model):
                              null=True)
 
     def __str__(self):
-        return "Email for {}".format(self.user)
+        return "<Email: {}>".format(self.email)
 
     def get_email(self):
         return self.email
@@ -105,7 +105,8 @@ class Address(models.Model):
 class ExtendedUser(models.Model):
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
-                             related_name="Person_details")
+                             related_name="Person_details",
+                             null=True)
     work_address = models.ForeignKey(Address,
                                      on_delete=models.CASCADE,
                                      blank=True,
@@ -136,7 +137,7 @@ class ExtendedUser(models.Model):
                                      auto_now_add=False)
 
     def __str__(self):
-        return "{} model".format(self.user.name)
+        return "{} model".format(self.user.first_name)
 
     class Meta:
         ordering = ('last_modified',)
