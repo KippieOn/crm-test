@@ -103,10 +103,14 @@ class Address(models.Model):
 
 @python_2_unicode_compatible
 class ExtendedUser(models.Model):
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE,
-                             related_name="Person_details",
-                             null=True)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    # dates information should be here like birth/join company/etc.
+    list_group = models.ForeignKey(List,
+                                   on_delete=models.CASCADE,
+                                   blank=True,
+                                   null=True,
+                                   related_name="list")
     work_address = models.ForeignKey(Address,
                                      on_delete=models.CASCADE,
                                      blank=True,
@@ -209,11 +213,6 @@ class EmailMessage(models.Model):
 
 @python_2_unicode_compatible
 class List(models.Model):
-    person = models.ForeignKey(ExtendedUser,
-                               on_delete=models.CASCADE,
-                               blank=True,
-                               null=True,
-                               related_name="person")
     name = models.CharField(_("List name/purpose"), max_length=120)
     description = models.CharField(_("Purpose of the list"),
                                    max_length=500,
@@ -234,7 +233,6 @@ class List(models.Model):
         else:
             return '<List with name {}, {} contacts, created at: {}, updated at: {}'\
                     .format(self.name,
-                            len(self.person),
                             self.created_at,
                             self.updated_at)
 
