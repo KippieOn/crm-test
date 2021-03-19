@@ -18,7 +18,7 @@ django-crispy-forms==1.7.0
 django-filter==1.1.0
 django-guardian==1.4.9
 django-jet==1.0.6
-djangorestframework==3.7.7
+djangorestframework==3.11.2
 enum34==1.1.6
 hyperlink==17.3.1
 idna==2.6
